@@ -60,7 +60,7 @@ A la fecha Torres de Niza tiene los siguientes propietarios:
 - Erika Muñoz CC 1058845781 – Apto 701 – 45mts Piso 7 - Parqueadero – Si - Cuarto útil terminado en el piso 2. Numeración A203
 - Modesto Villaverde CC 31 321 432 - Apto 502 – 60 mts Piso 5 - Parqueadero – No – No tiene cuarto útil.
 
-### Exploración de Visual Studio Code
+### Exploración en Visual Studio Code [ No es necesario si usa CLION]
 
 - Agregue la extensión C++
 - Agregue la extensión de Markdown
