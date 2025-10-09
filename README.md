@@ -1,12 +1,13 @@
 ## Torres de Niza - solución completa
 
-Este documento te guiará en el desarrollo del sistema de administración de propiedades del conjunto **Torres de Niza**, aplicando conceptos clave de **POO en C++**. Aprenderás sobre la interacción entre clases, gestión dinámica de memoria, y cómo optimizar el uso de **apuntadores y referencias**.
+Este documento te guiará en el desarrollo del sistema de administración de propiedades del conjunto **Torres de Niza**, aplicando conceptos clave de **POO en C++**. Aprenderás sobre la interacción entre clases, gestión dinámica de memoria, y cómo usar **apuntadores y referencias**.
 
 ## Objetivos
 
 - Configurar y utilizar un entorno de desarrollo integrado (IDE) para compilar y ejecutar el proyecto
 - Analizar y comprender la estructura del código fuente proporcionado
 - Implementar clases y sus relaciones en un lenguaje de programación orientado a objetos
+- Comprender como se articulan proyectos orientados a objetos cuando diferentes clases se interralacionan entre si
 - Comprender el uso de **referencias** y **apuntadores** en C++.
 - Explorar cómo se maneja la **gestión dinámica de memoria**.
 - Identificar el uso de **destructores** para la correcta liberación de memoria.
@@ -102,7 +103,7 @@ A la fecha Torres de Niza tiene los siguientes propietarios:
 ### 📌 ¿Qué es la memoria en un programa?
 Cuando un programa en C++ se ejecuta, utiliza memoria para almacenar datos y ejecutar instrucciones. Esta memoria se divide en diferentes áreas:
 - **Stack (Pila)**: Memoria de acceso rápido donde se almacenan variables locales y llamadas a funciones. Se maneja automáticamente.
-- **Heap (Montículo)**: Memoria de acceso más flexible que se administra manualmente con `new` y `delete`. Es aquí donde ocurre la **gestión dinámica de memoria**.
+- **Heap (Montículo)**: Memoria de acceso más flexible que se administra manualmente en C++ con las palabras clave `new` y `delete`. Es aquí donde ocurre la **gestión dinámica de memoria**.
 
 ### 📌 ¿Qué es la Gestión Dinámica de Memoria?
 Es el proceso de **asignar y liberar memoria manualmente** durante la ejecución del programa. A diferencia de la memoria en el stack, la memoria en el heap **no se libera automáticamente**, por lo que es responsabilidad del programador asegurarse de que no haya **fugas de memoria**.
@@ -194,7 +195,7 @@ Modifica getIdentificacion() en Propietario.h para devolver una referencia:
 
 ### 📌 ¿Qué son los apuntadores y por qué se crearon en C y C++?
 
-Los **apuntadores** son variables que almacenan la dirección de memoria de otra variable u objeto. Fueron introducidos en **C** para permitir el acceso eficiente a la memoria y mejorar la manipulación de estructuras de datos como arreglos y listas enlazadas. En **C++**, los apuntadores siguen siendo fundamentales, especialmente en la gestión de memoria dinámica, la programación orientada a objetos y el desarrollo de sistemas.
+Los **apuntadores** son variables que almacenan la dirección de memoria de otra variable u objeto. Fueron introducidos en **C** para permitir el acceso eficiente a la memoria y mejorar la manipulación de estructuras de datos como arreglos y listas enlazadas. En **C++**, los apuntadores son importantes en la gestión de memoria dinámica, la programación orientada a objetos y el desarrollo de sistemas.
 
 #### 📌 Razones por las que se crearon los apuntadores:
 - **Acceso eficiente a la memoria**: Permiten modificar datos directamente en la memoria sin necesidad de hacer copias.
@@ -415,7 +416,7 @@ Antes de analizar la interacción entre clases, es importante entender el propó
 ---
 
 ## 🔄 2. Interacción entre Clases
-A continuación, explicamos cómo interactúan las clases en diferentes situaciones clave.
+A continuación, se explica cómo interactúan las clases en diferentes situaciones clave.
 
 ### 📌 **Paso 1: Creación de Propiedades y Propietarios**
 El método `inicializarDatos()` en `Administracion` crea instancias de `Propietario` y `Propiedad`:
