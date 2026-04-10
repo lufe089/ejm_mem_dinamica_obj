@@ -2,6 +2,16 @@
 
 Este documento te guiará en el desarrollo del sistema de administración de propiedades del conjunto **Torres de Niza**, aplicando conceptos clave de **POO en C++**. Aprenderás sobre la interacción entre clases, gestión dinámica de memoria, y cómo usar **apuntadores y referencias**.
 
+ En este enunciado interesa que puedas:
+
+- leer un enunciado y ver la relación entre clases, atributos, métodos y relaciones
+- comprender la separación entre archivos `.h` y `.cpp`
+- reconocer cuándo aparece memoria dinámica
+- ver cómo se usan apuntadores en algunas relaciones entre objetos
+- distinguir entre pasar por valor, pasar por referencia y trabajar con `const`
+- continuar tu preparación prepararte para el siguiente parcial, donde tendrás que analizar diseño y código. 
+
+
 ## Objetivos
 
 - Configurar y utilizar un entorno de desarrollo integrado (IDE) para compilar y ejecutar el proyecto
@@ -15,13 +25,215 @@ Este documento te guiará en el desarrollo del sistema de administración de pro
 
 
 💡 **Metodología:**
-1. **Lee el enunciado** y extrae clases, atributos y métodos.
+1. **Lee el enunciado completo** antes de abrir el código.
 2. **Explora el código fuente**.
+    * **Abre el proyecto en Code::Blocks** y familiarízate con los archivos.
+    * **Revisa primero el `Main.cpp`** para entender el flujo general.
+    *. **Observa las clases del sistema** y su responsabilidad.
+    *. **Relaciona el código con el problema**: qué clase representa qué parte del enunciado.
+    *. **Identifica referencias, apuntadores y uso de `const`**.
+    *. **Compila, ejecuta, modifica y vuelve a probar**.
 3. **Realiza los ejercicios propuestos** para reforzar conceptos.
+4. **Responde por escrito las preguntas de reflexión** al final.
 
+## Obtener el código fuente 
 
-### Enunciado 
-**Descripción**
+### Exploración en CodeBlocks [ No es necesario si usa CLION o VsCode]
+##### 1. Tener instalado Code::Blocks con compilador
+
+Asegúrate de tener una instalación funcional de **Code::Blocks** con compilador de C++.
+
+Si ya lo tienes instalado, abre el programa y revisa que el compilador esté configurado en:
+
+- `Settings > Compiler`
+
+Si al compilar aparece un error relacionado con el compilador, revisa esa sección antes de seguir.
+
+##### 2. Obtener el proyecto
+
+Puedes clonar el repositorio o descargarlo como `.zip`.
+
+Si usas Git, el comando es:
+
+```bash
+git clone https://github.com/lufe089/ejm_mem_dinamica_obj.git
+```
+
+Si no usas Git(todavía), puedes descargar el repositorio desde GitHub en formato zip y descomprimirlo en una carpeta de trabajo.
+
+##### 3. Crear el proyecto en Code::Blocks
+
+Como el repositorio no trae un archivo `.cbp`, en Code::Blocks conviene trabajar así:
+
+###### Opción recomendada: proyecto vacío
+
+1. Abre **Code::Blocks**
+2. Ve a **File > New > Project**
+3. Selecciona **Empty project**
+4. Asigna un nombre al proyecto
+5. Guarda el proyecto en una ubicación conveniente
+
+> Esta opción es la más segura porque evita que Code::Blocks genere un `main` adicional.
+
+###### Opción alternativa: Console application
+
+También puedes crear una aplicación de consola, pero si Code::Blocks genera un `main.cpp` automático, deberás eliminarlo o no agregarlo al proyecto, porque el repositorio ya trae su propio `Main.cpp`.
+
+##### 4. Agregar los archivos existentes
+
+Una vez creado el proyecto:
+
+1. Haz clic derecho sobre el nombre del proyecto
+2. Selecciona **Add files...**
+3. Busca la carpeta `src`
+4. Agrega todos los `.cpp` y `.h`
+
+Asegúrate de incluir estos archivos del proyecto:
+
+- `src/Main.cpp`
+- `src/Administracion.cpp`
+- `src/Administracion.h`
+- `src/Propietario.cpp`
+- `src/Propietario.h`
+- `src/Propiedad.cpp`
+- `src/Propiedad.h`
+- `src/CuartoUtil.cpp`
+- `src/CuartoUtil.h`
+
+> Cuando Code::Blocks pregunte si deseas agregarlos a **Debug** y **Release**, puedes aceptar ambas opciones.
+---
+
+<details>
+<summary> Exploración en Visual Studio Code [ No es necesario si usa CLION o codeblocks] </summary>
+### Clonar el repositorio
+    - Abre una terminal y clona el repositorio con el siguiente comando:&#8203;:contentReference[oaicite:2]{index=2}
+      ```bash
+      git clone https://github.com/lufe089/ejm_mem_dinamica_obj.git
+
+    - Alternativamente si aún no has terminaodo tu formación en git y github descarga el comprimido zip
+    
+### Exploración en Visual Studio Code 
+- Agregue la extensión C++
+- Agregue la extensión de Markdown
+- Instale Cmake en su PC y haga la configuración
+- Instale Make en su PC ( si no es linux o Mac) y haga la configuración
+- Abra y observe los archivos `CMakePresets.json` y `CMakeLists.txt`
+
+- Navegue por el código fuente del proyecto
+- Configure el CMake y compile el proyecto. Aquí puede encontrar un video que explica cómo hacerlo: https://code.visualstudio.com/docs/cpp/CMake-linux. Note que el proyecto ya tiene el `CMakeList` y el `CmakePresets.json`
+</details>
+
+<details>
+<summary> Exploración en CLION [ No es necesario si usa VsCode o codeblocks] </summary>
+### Exploración en CLION
+2. **Abrir el proyecto en CLion**:
+* En CLion, selecciona "Abrir" en la pantalla de bienvenida o en el menú "Archivo".​
+* Navega hasta la carpeta del proyecto clonado y selecciona el archivo CMakeLists.txt.​
+* Haz clic en "Abrir" y luego en "Abrir como Proyecto".
+
+3. **Configurar y compilar el proyecto**
+* CLion configurará automáticamente el proyecto utilizando CMake. Espera a que finalice la configuración.
+* Si es necesario, selecciona la configuración de compilación en la esquina superior derecha de la ventana (usualmente "Debug" o "Release").
+* Haz clic en el botón "Build" para compilar el proyecto.
+</details>
+
+## 🔥Exploración del código fuente
+Primero explore el diagrama UML del enunciado disponible al final de este documento, luego recorra el código fuente desde el IDE que hubiera seleccionado en esta orden:
+
+#### Panel izquierdo: árbol del proyecto
+En el panel izquierdo dede el IDE podrás ver los archivos agregados. Úsalo para:
+
+- ubicar rápidamente las clases
+- distinguir archivos `.h` y `.cpp`
+- reconocer cuántos archivos participan en la solución
+
+#### Primero abre `Main.cpp`
+
+Aquí conviene observar:
+
+- qué objeto controla el flujo del programa
+- cómo aparece el menú
+- qué métodos se invocan desde la lógica principal
+- qué trabajo delega `main` a otras clases
+
+#### Luego abre `Administracion.h` y `Administracion.cpp`
+
+Aquí conviene observar:
+
+- qué atributos tiene la clase
+- qué métodos expone públicamente
+- qué parte del sistema parece coordinar
+- dónde se crean objetos dinámicamente
+- qué relaciones tiene con otras clases
+
+#### Después revisa las demás clases
+
+Al revisar `Propietario`, `Propiedad` y `CuartoUtil`, pregúntate:
+
+- ¿qué representa esta clase del problema?
+- ¿qué atributos necesita para existir?
+- ¿qué métodos tiene sentido que posea?
+- ¿depende de otra clase?
+- ¿tiene una relación con otro objeto mediante apuntador?
+
+### Cómo compilar y leer errores ( en CodeBlocks)
+
+Para compilar:
+
+- usa **Build**
+- o **Build and Run**
+
+Si ocurre un error:
+
+1. lee con calma el mensaje de compilación
+2. identifica el archivo donde ocurre
+3. identifica la línea reportada
+4. revisa si el problema está en:
+   - un `;` faltante
+   - una firma distinta entre `.h` y `.cpp`
+   - un método declarado pero no implementado
+   - un `#include` faltante
+   - un nombre de atributo mal escrito
+   - una llave o paréntesis sin cerrar
+
+No intentes corregir varios problemas al mismo tiempo si aún no entiendes el primero.
+
+### Cómo usar Code::Blocks para aprender mejor
+
+Mientras trabajas en el IDE, intenta usarlo como una herramienta de análisis:
+
+- abre al tiempo el `.h` y el `.cpp` de una misma clase
+- compara qué se declara y qué se implementa
+- vuelve al `Main.cpp` para entender cómo se conectan los objetos
+- compila después de cambios pequeños
+- si algo falla, registra qué pasó y cómo lo resolviste
+
+El objetivo no entender mejor el código.
+
+### Material de apoyo si aparecen dudas
+
+Si durante el trabajo aparecen dudas sobre:
+
+- referencias
+- apuntadores
+- uso de `const`
+- diferencia entre copiar y referenciar
+- acceso con `->`
+- memoria dinámica
+- relación entre objetos y contenedores
+
+puedes apoyarte en este material complementario:
+
+`https://github.com/lufe089/POO/blob/main/7.ContenedoresObjetos.md`
+
+- por qué una función recibe `const Tipo&`
+- cuándo conviene usar referencia y cuándo apuntador
+- qué significa que un objeto viva en memoria dinámica
+- por qué un contenedor puede guardar apuntadores al mismo objeto
+- qué implica que un método sea `const`
+
+## Enunciado 
+### Descripción*
 
 El administrador del conjunto bosques de Niza desea contratar un software para la gestión de cobros y descuentos a
 propietarios de la unidad.
@@ -61,44 +273,7 @@ A la fecha Torres de Niza tiene los siguientes propietarios:
 - Erika Muñoz CC 1058845781 – Apto 701 – 45mts Piso 7 - Parqueadero – Si - Cuarto útil terminado en el piso 2. Numeración A203
 - Modesto Villaverde CC 31 321 432 - Apto 502 – 60 mts Piso 5 - Parqueadero – No – No tiene cuarto útil.
 
-### Exploración en Visual Studio Code [ No es necesario si usa CLION]
-
-- Agregue la extensión C++
-- Agregue la extensión de Markdown
-- Instale Cmake en su PC y haga la configuración
-- Instale Make en su PC ( si no es linux o Mac) y haga la configuración
-- Abra y observe los archivos `CMakePresets.json` y `CMakeLists.txt`
-
-- Navegue por el código fuente del proyecto
-- Configure el CMake y compile el proyecto. Aquí puede encontrar un video que explica cómo hacerlo: https://code.visualstudio.com/docs/cpp/CMake-linux. Note que el proyecto ya tiene el `CMakeList` y el `CmakePresets.json`
-
-### Exploración en CLION
-
-1. **Clonar el repositorio**:
-    - Abre una terminal y clona el repositorio con el siguiente comando:&#8203;:contentReference[oaicite:2]{index=2}
-      ```bash
-      git clone https://github.com/lufe089/clases_objetos_relaciones_ejemplo.git
-
-2. **Abrir el proyecto en CLion**:
-* En CLion, selecciona "Abrir" en la pantalla de bienvenida o en el menú "Archivo".​
-* Navega hasta la carpeta del proyecto clonado y selecciona el archivo CMakeLists.txt.​
-* Haz clic en "Abrir" y luego en "Abrir como Proyecto".
-
-3. **Configurar y compilar el proyecto**
-* CLion configurará automáticamente el proyecto utilizando CMake. Espera a que finalice la configuración.
-* Si es necesario, selecciona la configuración de compilación en la esquina superior derecha de la ventana (usualmente "Debug" o "Release").
-* Haz clic en el botón "Build" para compilar el proyecto.
-
-
-## 🔥 Ejercicio Exploración de la implementación del código fuente
-- Explore el diagrama UML del enunciado disponible al final de este documento
-- Observe las clases del código fuente
-- Observe la separación entre los archivos .cpp y .h. ¿Qué tienen en común y qué tienen de diferente?
-- Identifique los métodos privados y públicos
-- Observe que el .gitignore tiene ignoradas carpetas como .idea, ¿por qué se ignoran estas carpetas?
-- Revise en el Main los métodos que muestran el menu
-
-## 🏗️ Gestión Dinámica de Memoria
+## 🏗️ Integración con gestión Dinámica de Memoria
 
 ### 📌 ¿Qué es la memoria en un programa?
 Cuando un programa en C++ se ejecuta, utiliza memoria para almacenar datos y ejecutar instrucciones. Esta memoria se divide en diferentes áreas:
@@ -113,17 +288,6 @@ Es el proceso de **asignar y liberar memoria manualmente** durante la ejecución
 - **Evitar el límite del stack**: Objetos grandes en el stack pueden causar desbordamiento de pila (**stack overflow**).
 - **Compartir datos entre funciones**: Los objetos creados en el heap pueden ser accedidos por diferentes funciones sin perder su referencia.
 
-### 📌 ¿Cómo se usa en C++?
-En C++, usamos los operadores `new` y `delete` para gestionar memoria dinámica:
-
-```cpp
-int *p = new int; // Reserva memoria para un entero en el heap
-*p = 42; // Asigna un valor
-cout << "Valor almacenado: " << *p << endl;
-delete p; // Libera la memoria
-```
-💡 Regla de oro: Cada new debe ir acompañado de un delete.
-
 ### 📌 Ejemplo en el Código
 En el método `inicializarDatos()` de `Administracion.cpp`, se crean varios objetos de forma dinámica:
 
@@ -131,11 +295,13 @@ En el método `inicializarDatos()` de `Administracion.cpp`, se crean varios obje
 Propietario *persona1 = new Propietario();
 Propietario *persona2 = new Propietario();
 Propiedad *prop1 = new Propiedad();
-CuartoUtil *cuarto1 = new CuartoUtil();
+CuartoUtil *cuarto1 = new CuartoUtil();}}}
+
 ```
 
 Estos objetos se almacenan en el heap, lo que significa que su vida útil no está limitada al bloque de código en el que fueron creados. A diferencia de las variables locales que desaparecen cuando la función termina, los objetos en el heap existen hasta que explícitamente se eliminan con `delete`. Esto es especialmente útil cuando necesitamos que los objetos persistan y sean accesibles desde diferentes partes del programa, incluso después de que la función que los creó haya terminado.
 
+El método destructor llamado ~Administracion() se encarga de eliminar los objetos. 
 
 🔥 **Ejercicio**:
 - Modifica `inicializarDatos()` para agregar un mensaje en consola después de cada `new`, indicando que el objeto fue creado exitosamente.
@@ -150,20 +316,6 @@ Una **referencia** en C++ es un alias para otra variable. En lugar de almacenar 
 2. Una vez que una referencia se asocia con una variable, **no puede cambiar a otra**.
 3. Es útil cuando queremos evitar **copias innecesarias** de datos grandes.
 
-🔍 **Ejemplo de referencia**:
-```cpp
-int numero = 42;
-int &ref = numero;  // ref es una referencia a numero
-
-cout << "Número: " << numero << endl;
-cout << "Referencia: " << ref << endl;
-```
-📝 Salida esperada:
-Número: 42
-Referencia: 42
-
-📌 ¿Por qué existen las referencias?
-
 Las referencias simplifican el código y mejoran el rendimiento al evitar copias innecesarias de datos. Son especialmente útiles en los siguientes casos:
 
 1️⃣ Evitar copias innecesarias en funciones
@@ -175,7 +327,6 @@ void mostrar(const string &texto) {  // Se pasa por referencia para evitar copia
 cout << "Texto: " << texto << endl;
 }
 ```
-
 2️⃣ Facilitar la manipulación de objetos
 Cuando trabajamos con clases y estructuras, las referencias permiten modificar directamente los atributos sin hacer copias innecesarias.
 
@@ -184,12 +335,19 @@ En Propietario.h, usamos una referencia constante para retornar el nombre:
 ```cpp
 const string &getNombre() const;
 ```
-
 Esto evita que C++ haga una copia del string, lo que ahorra memoria y tiempo de ejecución.
+
+Cada vez que veas `const`, intenta interpretar su intención:
+
+- `const` en un parámetro: no modificar lo recibido
+- `const` en un método: no modificar el objeto
+- `const` en un retorno por referencia: no permitir cambios desde afuera
+
+Si estos puntos no te quedan claros, revisa el material de apoyo indicado más arriba.
 
 🔥 **Ejercicio**:
 
-Modifica getIdentificacion() en Propietario.h para devolver una referencia:
+Modifica getIdentificacion() en Propietario.h para devolver una referencia constante
 
 ## 🔍 3. Apuntadores
 
@@ -222,78 +380,17 @@ En lugar de almacenar múltiples copias de un objeto, simplemente se almacena su
 Tener muchas copias de la misma información puede causar inconsistencias, ya que si una copia se modifica, las demás no reflejarán ese cambio automáticamente. Esto puede llevar a errores difíciles de rastrear, como valores desactualizados o conflictos en los datos. 
 
 Usar apuntadores permite garantizar que todos los objetos acceden a la misma información actualizada en memoria, manteniendo la coherencia del sistema.
+
 ### 📌 ¿Cómo funcionan?
-Un apuntador almacena la **dirección de memoria** de otra variable. Se declara usando `*`, y para obtener la dirección usamos `&`.
-
-🔍 **Ejemplo básico:**
-```cpp
-int valor = 10;
-int *p = &valor; // p almacena la dirección de memoria de valor
-cout << "Dirección de valor: " << p << endl; // Imprime algo como 0x1000
-cout << "Valor a través de p: " << *p << endl; // Imprime 10
-```
-
-🔥 **Ejercicio**:
-- Declara en el Main.cpp un apuntador `int *p` y asigna la dirección de una variable `int`.
-- Imprime el valor almacenado y la dirección de memoria.
-
----
+Un apuntador almacena la **dirección de memoria** de otra variable. Se declara usando `*. 
 
 ### 🏗️ Uso de `new` y `delete` para Memoria Dinámica
 
-En C++, cuando creamos objetos en **memoria dinámica**, debemos liberarlos para evitar **fugas de memoria**.
+💡 **Regla de oro**: Cada `new` debe ir acompañado de un `delete` para evitar fugas de memoria tal y como se explicó anteriormente en la parte de **Memoria Dinámica**
 
-🔍 **Ejemplo en el código:**
-```cpp
-int *p = new int; // Se reserva memoria en el heap para un entero
-*p = 42; // Se asigna un valor
-cout << *p << endl; // Se accede al valor almacenado
-delete p; // Se libera la memoria
-```
+### 🔥 Diferencia entre Apuntadores y Referencias 
 
-💡 **Regla de oro**: Cada `new` debe ir acompañado de un `delete` para evitar fugas de memoria.
-
-### 🔥 Diferencia entre Apuntadores y Referencias
-
-#### 🔹 Copias
-Cuando asignamos un valor de una variable a otra, se crea una **copia independiente**.
-```cpp
-int a = 10;
-int b = a;  // b es una copia de a
-b = 20;
-cout << a << endl;  // Imprime 10, porque b es una copia separada
-```
-💡 **Importante:** Cambiar `b` no afecta `a` porque son dos variables independientes.
-
-#### 🔹 Referencias
-Una **referencia** actúa como un alias para otra variable.
-```cpp
-int x = 42;
-int &ref = x;  // ref es un alias de x
-ref = 100;
-cout << x << endl;  // Imprime 100, porque ref es un alias de x
-```
-💡 **Importante:** Una referencia no crea una copia, sino que permite acceder a la misma variable con otro nombre.
-
-#### 🔹 Apuntadores
-Un **apuntador** almacena la dirección de memoria de otra variable.
-```cpp
-int valor = 10;
-int *p = &valor;
-cout << "Dirección de memoria de valor: " << p << endl;
-cout << "Valor almacenado en la dirección: " << *p << endl;
-```
-💡 **Importante:** Los apuntadores permiten modificar datos en memoria, gestionar objetos dinámicos y compartir estructuras de datos entre funciones sin copiarlas.
-Un **apuntador** es una variable que almacena la dirección de memoria de otra variable.
-
-🔹 **Ejemplo:**
-```cpp
-int valor = 10;
-int *p = &valor;
-cout << "Dirección de memoria de valor: " << p << endl;
-cout << "Valor almacenado en la dirección: " << *p << endl;
-```
-💡 **Importante:** Los apuntadores se usan para **gestión dinámica de memoria** y permiten crear relaciones entre objetos.
+> Mayor explicación de esto en el ejercicio disponible en: https://github.com/lufe089/POO/blob/main/7.ContenedoresObjetos.md
 
 | Característica | Apuntadores | Referencias |
 |--------------|-------------|-------------|
@@ -302,26 +399,7 @@ cout << "Valor almacenado en la dirección: " << *p << endl;
 | Pueden usarse para gestionar memoria dinámica | ✅ Sí | ❌ No |
 | Sintaxis | `int *p = &valor;` | `int &ref = valor;` |
 
-
-## 📌 Uso del operador `&` en C++
-
-El operador `&` tiene dos usos principales en C++:
-
-### 1️⃣ **Operador de dirección de memoria**
-Cuando se coloca antes de una variable, devuelve la dirección de memoria donde está almacenada.
-
-🔍 **Ejemplo:**
-```cpp
-int x = 42;
-cout << "Dirección de x: " << &x << endl;
-```
-
-Esto imprime la dirección de memoria donde `x` está almacenado en el stack. En C++, una dirección de memoria es un valor hexadecimal que representa la ubicación de una variable en la RAM. Dependiendo del sistema y la arquitectura, una dirección de memoria puede verse como algo similar a `0x7ffeed4b7c` o `0x61ff08`. Estas direcciones permiten a los programadores acceder directamente a la memoria y manipular datos de manera eficiente, lo que es clave en la programación de sistemas y en la gestión dinámica de memoria.
-
-### 2️⃣ **Operador de referencia**
-Se usa para declarar referencias, como se explicó en secciones anteriores. 
-
-## 🛑 4. Destructores
+### 🛑 4. Destructores
 
 ### 📌 ¿Qué es un destructor y para qué sirve?
 Un **destructor** es un método especial de una clase en C++ que se ejecuta **automáticamente** cuando un objeto es destruido. Su propósito es liberar recursos y evitar fugas de memoria.
@@ -346,6 +424,8 @@ int main() {
 ```
 
 C++ no gestiona automáticamente la memoria porque fue diseñado para ofrecer a los desarrolladores un control total sobre los recursos del sistema. A diferencia de otros lenguajes como Java o Python, que tienen un recolector de basura que libera memoria automáticamente cuando los objetos ya no son utilizados, en C++ el programador debe manejar explícitamente la asignación y liberación de memoria.
+
+> Ejercicio de observacion: Observe los constructores y destructores de las clases. 
 
 ### 📌 Beneficios y desventajas de esta decisión en C++:
 **Beneficios:**
@@ -380,16 +460,16 @@ Administracion::~Administracion() {
 
 ## 🏗️ Entendimiento del código fuente
 
-Antes de analizar la interacción entre clases, es importante entender el propósito de cada una:
+### Propósito de las clases 
 
-### **🔹 Propietario**
+#### **🔹 Propietario**
 - Representa a una persona que posee una propiedad.
 - Contiene atributos como `nombre`, `identificación` y `propiedad*`.
 - Métodos clave:
     - `setPropiedad(Propiedad* propiedad)`: Asigna una propiedad al propietario.
     - `mostrarDatos()`: Muestra la información del propietario y su propiedad.
 
-### **🔹 Propiedad**
+#### **🔹 Propiedad**
 - Representa un inmueble.
 - Contiene atributos como `numIdentificacion`, `piso`, `areaPropiedad`, `hayParqueadero`, `CuartoUtil* cuartoUtil`.
 - Métodos clave:
@@ -397,14 +477,14 @@ Antes de analizar la interacción entre clases, es importante entender el propó
     - `setCuartoUtil(CuartoUtil* cuartoUtil)`: Asigna un cuarto útil a la propiedad.
     - `mostrarDatos()`: Muestra la información de la propiedad y su cuarto útil (si existe).
 
-### **🔹 CuartoUtil**
+#### **🔹 CuartoUtil**
 - Representa un espacio de almacenamiento extra asociado a una propiedad.
 - Contiene atributos como `numeracion`, `piso`, `estaTerminado`.
 - Métodos clave:
     - `setEstaTerminado(bool estado)`: Modifica el estado de terminación del cuarto útil.
     - `mostrarDatos()`: Muestra información del cuarto útil.
 
-### **🔹 Administracion**
+#### **🔹 Administracion**
 - Gestiona las propiedades y propietarios dentro del sistema.
 - Contiene una lista de propietarios y propiedades.
 - Métodos clave:
@@ -413,12 +493,7 @@ Antes de analizar la interacción entre clases, es importante entender el propó
     - `recaudarAdministracion()`: Calcula el valor total de la administración recaudada.
     - `imprimirPropietarios()`: Muestra la lista de propietarios.
 
----
-
-## 🔄 2. Interacción entre Clases
-A continuación, se explica cómo interactúan las clases en diferentes situaciones clave.
-
-### 📌 **Paso 1: Creación de Propiedades y Propietarios**
+#### 📌 Creación de Propiedades y Propietarios**
 El método `inicializarDatos()` en `Administracion` crea instancias de `Propietario` y `Propiedad`:
 
 ```cpp
@@ -426,26 +501,119 @@ Propietario* persona1 = new Propietario();
 Propiedad* prop1 = new Propiedad();
 persona1->setPropiedad(prop1);
 ```
-
 🔹 Aquí, **la clase `Administracion` crea instancias de `Propietario` y `Propiedad` y las asocia** mediante `setPropiedad()`. Esto permite que cada propietario tenga una referencia a su propiedad sin copiar toda la información.
 
-🔥 **Ejercicio 1:**
-- Imprime la dirección de memoria de `persona1` y `prop1` para verificar que `prop1` es referenciada dentro de `persona1` sin duplicación. Para hacer esto, puedes usar el operador de dirección (`&`) y la función `cout` para imprimir las direcciones de memoria:
+### Qué conviene observar en el código
 
-```cpp
-cout << "Dirección de memoria de persona1: " << &persona1 << endl;
-cout << "Dirección de memoria de prop1: " << prop1 << endl;
-cout << "Dirección de memoria de la propiedad dentro de persona1: " << persona1->getPropiedad() << endl;
-```
+Observa e intenta responder estas preguntas:
+- ¿Qué métodos parecen getters, setters o métodos de comportamiento?
+- ¿Qué clase coordina la lógica principal?
+- ¿Qué relaciones hay entre `Propietario`, `Propiedad` y `CuartoUtil`?
+- ¿Dónde se usan apuntadores?
 
-Si la dirección impresa por `persona1->getPropiedad()` es la misma que la de `prop1`, significa que `persona1` almacena una referencia al mismo objeto sin duplicarlo.
+### Preguntas de exploración del diseño
+- ¿Qué métodos permiten consultar información?
+- ¿Qué métodos permiten modificar información?
+- ¿Qué métodos parecen existir para coordinar acciones del sistema?
+- ¿Qué clase conoce a cuál otra?
+- ¿Qué clase parece tener una relación de asociación con otra?
+- ¿Qué cosas se escriben en el `.h`?
+- ¿Qué cosas se escriben en el `.cpp`?
 
----
+
 ### 🔥 Ejercicio de exploración detallada
 
-- Revise cómo se calcula el recaudo total
-- Observe los constructores y destructores de las clases. ¿Cuáles clases tienen destructores? ¿Por qué?
-- Identificar cómo se inicializan y utilizan las instancias de las clases Propietario, Propiedad, CuartoUtil, y Administracion.
+#### Exploración del paso de mensajes entre clases
+
+Un punto clave de este ejercicio es aprender a seguir el **paso de mensajes entre objetos**. En programación orientada a objetos esto significa observar qué objeto le pide algo a otro, qué método invoca, qué dato recibe a cambio y cómo continúa la secuencia.
+
+No basta con decir que dos clases “están relacionadas”. También conviene entender **cómo colaboran**.
+
+Por ejemplo, una pregunta importante no es solo si `Propietario` conoce a `Propiedad`, sino:
+
+- ¿qué método usa `Propietario` para acceder a su propiedad?
+- una vez tiene esa propiedad, ¿qué método se invoca sobre ella?
+- si la propiedad tiene cuarto útil, ¿cómo se llega hasta ese objeto?
+- ¿qué cadena de llamadas permite llegar de un objeto a otro?
+
+- Revise cómo se calcula el recaudo total, navegue entre los diferentes métodos
+- Identifique cómo se inicializan y utilizan las instancias de las clases Propietario, Propiedad, CuartoUtil, y Administracion.
+
+### Cómo estudiar el paso de mensajes
+
+Cuando revises el código, intenta seguir secuencias como estas:
+
+1. un objeto recibe una solicitud
+2. consulta o modifica su propio estado
+3. pide apoyo a otro objeto relacionado
+4. usa el resultado para completar la operación
+
+### 🔥 Ejercicio exploración paso de mensajes entre clases
+
+#### Ejercicio 1. Rastro de mensajes desde `main`
+Abre `Main.cpp` y elige una opción del menú.
+
+Luego responde:
+
+- ¿qué objeto recibe primero la solicitud?
+- ¿qué método se invoca primero?
+- ¿ese método resuelve todo por sí solo o envía mensajes a otros objetos?
+- ¿qué otras clases participan en la respuesta?
+
+Haz un pequeño rastro escrito usando flechas. Por ejemplo:
+
+`main -> objetoX -> métodoY -> objetoZ -> métodoW`
+
+#### Ejercicio 2. Navegación entre `Propietario` y `Propiedad`
+
+Busca una parte del código donde a partir de un `Propietario` se necesite consultar información de su `Propiedad`.
+
+Responde:
+
+- ¿qué método permite pasar de `Propietario` a `Propiedad`?
+- ¿qué tipo devuelve ese método?
+- ¿la navegación ocurre mediante `.` o mediante `->`?
+- ¿por qué en ese punto no basta con consultar solo el objeto `Propietario`?
+
+Después escribe con tus palabras la secuencia completa de mensajes.
+
+#### Ejercicio 3. Navegación hasta `CuartoUtil`
+
+Identifica una situación en la que se necesite saber si una propiedad tiene cuarto útil y si está terminado o no.
+
+Luego explica:
+
+- ¿desde qué objeto comienza la consulta?
+- ¿qué mensajes hay que enviar para llegar hasta `CuartoUtil`?
+- ¿qué validación habría que hacer antes de acceder al cuarto útil?
+- ¿qué podría salir mal si se intenta acceder directamente sin verificar?
+
+#### Ejercicio 4. Completa la cadena de mensajes
+
+Completa cadenas como estas con nombres reales de métodos del proyecto:
+
+- `main -> ______ -> ______`
+- `Propietario -> ______ -> piso de la propiedad`
+- `Propietario -> ______ -> ______ -> estado del cuarto útil`
+- `Administracion -> ______ -> ______ -> valor de administración`
+
+#### Ejercicio 5. Diseña un nuevo mensaje entre clases
+
+Imagina que quieres mostrar el nombre del propietario junto con el número del apartamento y si su cuarto útil está terminado.
+
+Antes de programar, responde:
+
+- ¿desde qué clase iniciarías la operación?
+- ¿qué otros objetos necesitarías consultar?
+- ¿qué mensajes habría que enviar en orden?
+- ¿qué método nuevo haría falta si el código actual no alcanza?
+
+### Preguntas de reflexión sobre el paso de mensajes
+
+- ¿En qué parte te costó más seguir la navegación entre objetos?
+- ¿Qué te confundió más: identificar la relación o seguir la cadena de llamadas?
+- ¿Qué diferencia notas entre “saber que dos clases están relacionadas” y “entender cómo colaboran”? 
+- ¿Qué te ayuda más a seguir el paso de mensajes: el UML, el `.h`, el `.cpp` o el `main`?
 
 ### 🔥Ejercicio Implementación de un Nuevo Reporte de Administración**
 
@@ -477,8 +645,76 @@ Total administración recaudada: 850000
 3. Prueba el código ejecutando la función en el `main()`.
 
 
-### 🔥Ejercicio  ¿Qué sigue?
-📌 Implementa otra mejora en el proyecto, documenta en este README la nueva funcionalidad, pruébala y compártela
+### 🔥Ejercicio  calcular mayor y menor
+
+Ajusta el diseño y la implementación para agregar reportes que permitan identificar:
+
+1. **el propietario cuya propiedad paga la mayor administración**
+3. **la propiedad con menor área**
+
+> No resuelvas el ejercicio con variables sueltas desconectadas del modelo. Debes partir de los **objetos del sistema** y recorrer la información disponible en ellos.
+
+#### Pistas de lógica
+Mientras lo resuelves, piensa en preguntas como estas:
+
+- ¿con qué dato inicializas el “mayor” y el “menor”?
+- ¿vas a comparar propietarios o propiedades?
+- ¿qué método necesitas consultar para hacer la comparación?
+- ¿en qué clase tiene más sentido ubicar esta lógica?
+- ¿necesitas recorrer una colección completa para encontrar la respuesta?
+
+#### Recomendación
+
+Primero resuelve uno solo de estos reportes.  
+Después reutiliza la idea para los demás.
+
+Por ejemplo:
+
+- primero encuentra la propiedad de mayor área
+- luego adapta la lógica para hallar la menor
+- después úsala para el valor de administración
+
+#### Preguntas de reflexión sobre este ejercicio
+- ¿Qué te resultó más difícil: decidir dónde ubicar el método o escribir la comparación?
+- ¿Necesitaste acceder a objetos relacionados?
+- ¿Qué aprendiste sobre recorrer objetos y comparar atributos?
+
+### Ejercicio propietarios con condiciones especiales
+
+Construye un reporte que muestre:
+
+- el propietario con apartamento en el piso más alto
+- el propietario con apartamento en el piso más bajo
+- el propietario cuya propiedad tenga el mayor valor estimado de administración
+
+Luego responde:
+
+- ¿qué datos necesitaste tomar del objeto `Propiedad`?
+- ¿cómo llegaste a ellos desde `Propietario`?
+- ¿qué relación entre clases tuviste que entender mejor para lograrlo?
+
+### Sobre tu proceso de aprendizaje
+Reflexiona sobre lo siguiente
+- ¿En qué parte del ejercicio sentiste que realmente entendiste mejor el diseño orientado a objetos?
+- ¿Qué hiciste cuando algo no te compiló?
+- ¿Qué tema sientes que todavía debes repasar antes del parcial?
+- ¿Qué tipo de error crees que hoy podrías detectar mejor que antes?
+
+## Recomendación 
+Este trabajo es una preparación para el parcial.
+
+Si puedes explicar:
+
+- qué representa cada clase
+- por qué cierto dato es atributo y no método
+- cómo se relacionan dos objetos
+- por qué un método está en `.h` pero se implementa en `.cpp`
+- por qué en cierto punto se usa apuntador o referencia
+- el paso de mensajes entre clases
+- hacer las mejoras solicitadas
+
+Entonces vas por buen camino.
+
 
 ## UML
 <details>
