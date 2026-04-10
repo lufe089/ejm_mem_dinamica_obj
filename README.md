@@ -1,4 +1,4 @@
-## Torres de Niza - solución completa
+## Torres de Niza - ejercicio depráctica con código existente
 
 Este documento te guiará en el desarrollo del sistema de administración de propiedades del conjunto **Torres de Niza**, aplicando conceptos clave de **POO en C++**. Aprenderás sobre la interacción entre clases, gestión dinámica de memoria, y cómo usar **apuntadores y referencias**.
 
