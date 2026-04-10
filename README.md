@@ -101,6 +101,8 @@ Asegúrate de incluir estos archivos del proyecto:
 - `src/CuartoUtil.h`
 
 > Cuando Code::Blocks pregunte si deseas agregarlos a **Debug** y **Release**, puedes aceptar ambas opciones.
+> El archivo CMakeLists es útil para compilación en CLION y el archivo CMakePresets es útil para compilación en Visual Studio Code
+
 ---
 
 <details>
